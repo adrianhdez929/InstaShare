@@ -3,35 +3,35 @@ import axios from "axios"
 
 import DefaultView from "../views/DefaultView"
 
-import AddTask from "../components/tasks/AddTask"
-import TasksList from "../components/tasks/TasksList"
+import AddFile from "../components/files/AddFile"
+import FilesList from "../components/files/FilesList"
 
-const TasksPage = () => {
-    const [tasks, setTasks] = useState([])
+const FilesPage = () => {
+    const [files, setfiles] = useState([])
 
     useEffect(() => {
-        if (tasks.length === 0)
-            axios.get('http://localhost:8000/tasks/', {
+        if (files.length === 0)
+            axios.get('http://localhost:8000/files/', {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
             .then(res => {
                 console.log(res.data)
-                setTasks(res.data)
+                setfiles(res.data)
             })
             .catch(err => {
                 console.log(err)
             })
-    }, [tasks])
+    }, [])
 
     return (
         <DefaultView>
-            <AddTask />
+            <AddFile />
 
-            <TasksList tasks={tasks} />
+            <FilesList files={files} />
         </DefaultView>
     )
 }
 
-export default TasksPage
+export default FilesPage

@@ -7,7 +7,7 @@ import AppRouter from './router'
 
 const App = () => {
   return(
-    <ReduxProvider store={store}>
+    <ReduxProvider store={ store }>
       <BrowserRouter>
         <AppRouter />
       </BrowserRouter>

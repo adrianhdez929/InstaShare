@@ -37,7 +37,7 @@ const LoginForm = () => {
     const onFormSubmit = (e) => {
         e.preventDefault()
 
-        axios.post('http://localhost:8000/token/', formData)
+        axios.post('http://localhost:8000/users/token/', formData)
         .then(res => {
             localStorage.setItem('token', res.data.access)
             localStorage.setItem('refresh', res.data.refresh)
