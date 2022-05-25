@@ -44,7 +44,7 @@ const FileItemEditMenu = ({ content }) => {
     })
 
     const onInputChange = (e) => {
-        setEditState({...editState, [e.target.name]: [e.target.value]})
+        setEditState({...editState, [e.target.name]: e.target.value})
     }
 
     const onEdit = () => {
@@ -53,6 +53,12 @@ const FileItemEditMenu = ({ content }) => {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
+        })
+        .then(res => {
+            console.log(res.data)
+        })
+        .catch(err => {
+            console.log(err)
         })
     }
 
@@ -93,7 +99,7 @@ const FileItem = ({ content }) => {
                 </div>
                 <FileItemMenu content={content} onEdit={onEdit} isEditing={isEditing} />
             </div>
-            { isEditing && <FileItemEditMenu /> }
+            { isEditing && <FileItemEditMenu content={ content }/> }
         </>
     )
 }

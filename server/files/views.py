@@ -3,9 +3,10 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 
 from .models import File
-from .serializers import FileSerializer
+from .serializers import EditFileSerializer, FileSerializer
 
 
 class FilesViewset(ModelViewSet):
@@ -20,8 +21,14 @@ class FilesViewset(ModelViewSet):
         serializer.save(owner=self.request.user)
 
 class FileViewSet(ModelViewSet):
-    serializer_class = FileSerializer
     model = File
+    permission_classes = [AllowAny] 
+
+    def get_serializer_class(self, *args, **kwargs):
+        if self.request.method == 'PATCH':
+            return EditFileSerializer
+
+        return FileSerializer
 
     def get_object(self):
         return self.model.objects.get(id=self.kwargs.get('pk'))

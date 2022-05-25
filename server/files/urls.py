@@ -9,7 +9,7 @@ files_router = views.FilesViewset.as_view({
 
 file_router = views.FileViewSet.as_view({
     'get': 'retrieve',
-    'path': 'partial_update',
+    'patch': 'partial_update',
     'delete': 'destroy'
 })
 

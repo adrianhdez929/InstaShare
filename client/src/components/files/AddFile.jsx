@@ -87,9 +87,14 @@ const AddFile = () => {
 
     const onFileAdd = () => {
         const formData = new FormData()
+
         formData.append(
             'file',
             file,
+            file.name
+        )
+        formData.append(
+            'name',
             file.name
         )
 
