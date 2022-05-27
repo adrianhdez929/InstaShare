@@ -1,9 +1,14 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import * as Icon from 'react-feather'
+import { useDispatch } from 'react-redux'
+
+import { fetchFileList } from '../../provider/app/actions'
 
 
 const FileItemMenu = ({ content, onEdit, isEditing }) => {
+    const dispatch = useDispatch()
+
     const onFileDelete = () => {
         axios.delete(`http://localhost:8000/files/${content.pk}/`, {
             headers: {
@@ -11,7 +16,7 @@ const FileItemMenu = ({ content, onEdit, isEditing }) => {
             }
         })
         .then(res => {
-            console.log(res.data)
+            dispatch(fetchFileList)
         })
         .catch(err => {
             console.log(err)
@@ -39,6 +44,7 @@ const FileItemMenu = ({ content, onEdit, isEditing }) => {
 }
 
 const FileItemEditMenu = ({ content }) => {
+    const dispatch = useDispatch()
     const [editState, setEditState] = useState({
         'name': ''
     })
@@ -55,7 +61,7 @@ const FileItemEditMenu = ({ content }) => {
             }
         })
         .then(res => {
-            console.log(res.data)
+            dispatch(fetchFileList)
         })
         .catch(err => {
             console.log(err)
@@ -95,7 +101,7 @@ const FileItem = ({ content }) => {
             <div className='flex items-center justify-between w-full my-1 border rounded-md shadow-md p-5'>
                 <div className='flex items-center justify-center'>
                     <div className='mx-5'>Name: { content.file }</div>
-                    <div className='mx-5'>Size: { content.size }</div>
+                    <div className='mx-5'>Size: { content.size } bytes</div>
                 </div>
                 <FileItemMenu content={content} onEdit={onEdit} isEditing={isEditing} />
             </div>
@@ -109,11 +115,13 @@ const FilesList = ({ files }) => {
         <div className='flex flex-col items-center justify-center'>
             <div className='font-bold text-5xl my-5 py-5 text-center w-full border-b'>Your Files</div>
             <div className='flex flex-col w-full my-5'>
-                { files.map((file, key) => {
-                    return (
-                        <FileItem key={key} content={file} />
+                { 
+                    files.map((file, key) => {
+                        return (
+                            <FileItem key={key} content={file} />
                         )
-                    }) }
+                    }) 
+                }
             </div>
         </div>
     )

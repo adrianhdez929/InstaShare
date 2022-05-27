@@ -10,7 +10,11 @@ export default function AppReducer (state = initialState, action) {
             return {
                 ...state, isLoggedIn
             }
-
+        case actions.SET_FILE_LIST:
+            const { fileList } = action.payload
+            return {
+                ...state, fileList
+            }
         default:
             return state
     }

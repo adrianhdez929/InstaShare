@@ -1,7 +1,6 @@
 import React from 'react'
 
 import ContentContainer from '../components/shared/ContentContainer'
-import Footer from '../components/shared/Footer'
 
 
 const AuthView = ({children}) => {
@@ -10,8 +9,6 @@ const AuthView = ({children}) => {
             <ContentContainer>
                 { children }
             </ContentContainer>
-            
-            <Footer />
         </>
     )
 }

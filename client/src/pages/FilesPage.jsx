@@ -1,35 +1,27 @@
-import React, { useEffect, useState } from "react"
-import axios from "axios"
+import React, { useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
 
 import DefaultView from "../views/DefaultView"
 
 import AddFile from "../components/files/AddFile"
 import FilesList from "../components/files/FilesList"
 
+import { fetchFileList } from ".././provider/app/actions"
+import { getFileList } from "../provider/app/selectors"
+
 const FilesPage = () => {
-    const [files, setfiles] = useState([])
+    const dispatch = useDispatch()
+    const fileList = useSelector(getFileList)
 
     useEffect(() => {
-        if (files.length === 0)
-            axios.get('http://localhost:8000/files/', {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            })
-            .then(res => {
-                console.log(res.data)
-                setfiles(res.data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        dispatch(fetchFileList)
     }, [])
 
     return (
         <DefaultView>
             <AddFile />
 
-            <FilesList files={files} />
+            <FilesList files={fileList} />
         </DefaultView>
     )
 }

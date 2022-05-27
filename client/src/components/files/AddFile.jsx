@@ -1,84 +1,12 @@
 import axios from "axios"
 import React, { useState } from "react"
-import * as Icon from 'react-feather'
+import { useDispatch } from "react-redux"
 
+import { fetchFileList } from "../../provider/app/actions"
 
-const FileMenuButton = ({icon, text}) => {
-    return (
-        <button className="flex rounded-md shadow-md bg-gray-200 hover:bg-gray-400 py-2 px-5">
-            {icon} {text}
-        </button>
-    )
-}
-
-const FileMenu = ({ content }) => {
-    const onFileAdd = () => {
-        const formData = new FormData()
-
-        formData.append(
-            'file',
-            content.file,
-            content.file.name
-        )
-
-        console.log(formData)
-
-        axios.post('http://localhost:8000/files/', {
-            content: formData
-        },{
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                'content-type': 'multipart/form-data'
-            }
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
-    return (
-        <div className="w-full">
-            <div className="flex justify-between items-center rounded shadow-md border p-3">
-                <div className="flex">
-                    <div className="px-3 mr-5">
-                        <div>
-                            <FileMenuButton icon={<Icon.Maximize2 className="mr-3" />} text="Open" />
-                        </div>
-                    </div>
-                    <div className="flex">
-                        <div className="mx-1">
-                            <FileMenuButton icon={<Icon.Calendar className="mr-3" />} text="Today" />
-                        </div>
-                        <div className="mx-1">
-                            <FileMenuButton icon={<Icon.Unlock className="mr-3" />} text="Public" />
-                        </div>
-                        <div className="mx-1">
-                            <FileMenuButton icon={<Icon.Loader className="mr-3" />} text="Highlight" />
-                        </div>
-                        <div className="mx-1">
-                            <FileMenuButton icon={<Icon.MinusCircle className="mr-3" />} text="Estimation" />
-                        </div>
-                    </div>
-                </div>
-                <div className="flex">
-                    <div className="mx-1">
-                        <button className="rounded-md shadow-md bg-gray-200 hover:bg-gray-400 py-2 px-5">Cancel</button>
-                    </div>
-                    <div className="mx-1">
-                        <button 
-                            onClick={onFileAdd}
-                            className="rounded-md shadow-md text-white bg-indigo-600 hover:bg-indigo-800 py-2 px-5"
-                        >
-                            Add
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
 
 const AddFile = () => {
-    const [isFocused, setIsFocused] = useState(false)
+    const dispatch = useDispatch()
     const [file, setFile] = useState(null)
 
     const onFileChange = (e) => {
@@ -106,7 +34,9 @@ const AddFile = () => {
                 //'accept': 'multipart/form-data'
             }
         })
-        .then(res => {console.log(res.data)})
+        .then(res => {
+            dispatch(fetchFileList)
+        })
         .catch(err => {
             console.log(err)
         })
